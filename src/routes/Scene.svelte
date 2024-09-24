@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import { T, useTask } from '@threlte/core';
 	import { Gizmo, OrbitControls, HTML } from '@threlte/extras';
-	import { DEG2RAD } from 'three/src/math/MathUtils';
+	import { DEG2RAD } from 'three/src/math/MathUtils.js';
 	import { handleKeysDown, handleKeysUp } from './keyboardInputHandler';
 	import { generatePyramid } from './pyramidGenerator';
 	import {
@@ -39,10 +39,10 @@
 		// if (keysPressed.includes('backward')) playerCollider.setTranslation({}) += 8 * delta;
 		// if (keysPressed.includes('left')) playerCollider.setTranslation({}) -= 8 * delta;
 		// if (keysPressed.includes('right')) playerCollider.setTranslation({}) += 8 * delta;
-		// if (keysPressed.includes('forward')) player.pos.z -= 8 * delta;
-		// if (keysPressed.includes('backward')) player.pos.z += 8 * delta;
-		// if (keysPressed.includes('left')) player.pos.x -= 8 * delta;
-		// if (keysPressed.includes('right')) player.pos.x += 8 * delta;
+		if (keysPressed.includes('forward')) player.pos.z -= 8 * delta;
+		if (keysPressed.includes('backward')) player.pos.z += 8 * delta;
+		if (keysPressed.includes('left')) player.pos.x -= 8 * delta;
+		if (keysPressed.includes('right')) player.pos.x += 8 * delta;
 
 		player = player;
 	});
@@ -99,7 +99,7 @@
 	<Attractor range={30} {strength} />
 </BasicPlayerController> -->
 
-<RigidBody type="Dynamic">
+<RigidBody type="dynamic">
 	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow>
 		<Collider
 			shape={'cuboid'}
@@ -127,7 +127,7 @@
 <!-- TEST -->
 {#each pyramid.stones as [x, y, z], i}
 	<T.Group position={[x, y, z]}>
-		<RigidBody type="Dynamic">
+		<RigidBody type="dynamic">
 			<Collider
 				contactForceEventThreshold={30}
 				restitution={0.4}
