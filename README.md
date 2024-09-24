@@ -1,38 +1,32 @@
-# create-svelte
+# Overview
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+{Provide a description the game that you wrote. Describe how to play your game.}
 
-## Creating a project
+{Describe your purpose for writing this software.}
 
-If you're seeing this, you've probably already done this step. Congrats!
+{Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the game being played and a walkthrough of the code.}
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+[Software Demo Video](http://youtube.link.goes.here)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+# Development Environment
 
-## Developing
+{Describe the tools that you used to develop the software}
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+{Describe the programming language that you used and any libraries.}
+Svelte, for the front end and to ease the development of the game.
+Three.js, for the 3D rendering of the game.
+Threlte, as a wrapper for Svelte and Three.js to make the development of the game easier.
+Rapier.js, for the physics engine of the game.
 
-```bash
-npm run dev
+# Useful Websites
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- [Threlte](https://threlte.xyz)
+- [Rapier.js](https://rapier.rs/)
 
-## Building
+# Future Work
 
-To create a production version of your app:
+{Make a list of things that you need to fix, improve, and add in the future.}
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+- Item 1
+- Item 2
+- Item 3
