@@ -1,60 +1,55 @@
 <script>
 	import { T, useTask } from '@threlte/core';
-	import { Gizmo, OrbitControls } from '@threlte/extras';
+	import { Gizmo, OrbitControls, HTML } from '@threlte/extras';
 	import { DEG2RAD } from 'three/src/math/MathUtils';
 	import { handleKeysDown, handleKeysUp } from './keyboardInputHandler';
+	import { generatePyramid } from './pyramidGenerator';
 	import {
 		AutoColliders,
 		Collider,
 		RigidBody,
 		BasicPlayerController,
-		Attractor
+		Attractor,
+		Debug
 	} from '@threlte/rapier';
-	import { CapsuleGeometry, MeshStandardMaterial } from 'three';
+	import { MeshStandardMaterial, CylinderGeometry } from 'three';
+	import { onMount } from 'svelte';
 
-	let cameraPos = [50, 100, 200];
+	import { blur } from 'svelte/transition';
+
 	let playerPos = [-5, 2, -5];
 
 	let keysPressed = [];
 
-	let strength = 0.25;
+	let strength = 0.125;
 
-	// const handleKeyDown = (e) => (keysPressed = handleKeysDown(e, keysPressed));
-	// const handleKeyUp = (e) => (keysPressed = handleKeysUp(e, keysPressed));
+	const handleKeyDown = (e) => (keysPressed = handleKeysDown(e, keysPressed));
+	const handleKeyUp = (e) => (keysPressed = handleKeysUp(e, keysPressed));
 
-	async function handleKeyDown(e) {
-		e.code === 'Space' && (strength = -2);
-	}
+	let player = {
+		pos: { x: -5, y: 0, z: -5 }
+	};
 
-	async function handleKeyUp(e) {
-		e.code === 'Space' && (strength = 0.25);
-	}
+	let playerCollider;
+	onMount(() => {});
+	console.log('🚀 ~ playerCollider:', playerCollider);
 
 	useTask((delta) => {
-		if (keysPressed.includes('forward')) playerPos[2] -= 5 * delta;
-		if (keysPressed.includes('backward')) playerPos[2] += 5 * delta;
-		if (keysPressed.includes('left')) playerPos[0] -= 5 * delta;
-		if (keysPressed.includes('right')) playerPos[0] += 5 * delta;
+		// if (keysPressed.includes('forward')) playerCollider.setTranslation({}) -= 8 * delta;
+		// if (keysPressed.includes('backward')) playerCollider.setTranslation({}) += 8 * delta;
+		// if (keysPressed.includes('left')) playerCollider.setTranslation({}) -= 8 * delta;
+		// if (keysPressed.includes('right')) playerCollider.setTranslation({}) += 8 * delta;
+		// if (keysPressed.includes('forward')) player.pos.z -= 8 * delta;
+		// if (keysPressed.includes('backward')) player.pos.z += 8 * delta;
+		// if (keysPressed.includes('left')) player.pos.x -= 8 * delta;
+		// if (keysPressed.includes('right')) player.pos.x += 8 * delta;
+
+		player = player;
 	});
 
-	const pyramid = [];
-	const PYRAMID_HEIGHT = 6;
-	const STONE_LENGTH = 0.5;
-	const STONE_HEIGHT = 0.1;
+	const pyramid = generatePyramid(1, 0.5, 0.5);
 
-	for (let i = 0; i < PYRAMID_HEIGHT; i++) {
-		for (let j = 0; j < PYRAMID_HEIGHT - i; j++) {
-			for (let k = 0; k < PYRAMID_HEIGHT - i; k++) {
-				pyramid.push([
-					j * STONE_LENGTH * 2 + STONE_LENGTH * i,
-					i * STONE_HEIGHT * 2 + STONE_HEIGHT,
-					k * STONE_LENGTH * 2 + STONE_LENGTH * i
-				]);
-			}
-		}
-	}
-
-	console.log(pyramid);
+	let open = true;
 </script>
 
 <!-- <T.PerspectiveCamera position={cameraPos} makeDefault fov={5} near={0.1} far={1000000}>
@@ -62,7 +57,7 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[150, 100, 0]}
+	position={[0, 100, 150]}
 	fov={5}
 	zoom={0.5}
 	near={0.1}
@@ -85,12 +80,12 @@
 <T.AmbientLight intensity={0.5} />
 
 <!-- PLAYER -->
-<BasicPlayerController
+<!-- <BasicPlayerController
 	position={playerPos}
-	speed={10}
+	speed={8}
 	radius={0.3}
 	height={1.8}
-	jumpStrength={8}
+	jumpStrength={4}
 	groundCollisionGroups={[15]}
 	playerCollisionGroups={[0]}
 >
@@ -98,44 +93,138 @@
 		position.y={0.9}
 		receiveShadow
 		castShadow
-		geometry={new CapsuleGeometry(0.3, 1.8 - 0.3 * 2)}
+		geometry={new CylinderGeometry(0.3, 0.3, 1.8, 6)}
 		material={new MeshStandardMaterial()}
 	/>
 	<Attractor range={30} {strength} />
-</BasicPlayerController>
+</BasicPlayerController> -->
+
+<RigidBody type="Dynamic">
+	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow>
+		<Collider
+			shape={'cuboid'}
+			args={[1, 1, 1]}
+			contactForceEventThreshold={30}
+			restitution={0.4}
+			friction={1}
+		/>
+		<T.BoxGeometry args={[1, 1, 1]} />
+		<T.MeshStandardMaterial color={'red'} />
+		<!-- <Attractor range={200} strength={0.125} /> -->
+	</T.Mesh>
+</RigidBody>
+
+<Collider
+	shape={'cuboid'}
+	args={[1, 1, 1]}
+	contactForceEventThreshold={30}
+	restitution={0.4}
+	friction={1}
+/>
+
+<Debug />
 
 <!-- TEST -->
-{#each pyramid as [x, y, z], i}
+{#each pyramid.stones as [x, y, z], i}
 	<T.Group position={[x, y, z]}>
 		<RigidBody type="Dynamic">
 			<Collider
 				contactForceEventThreshold={30}
 				restitution={0.4}
-				friction={0.4}
-				shape={'ball'}
-				args={[STONE_LENGTH, STONE_HEIGHT, STONE_LENGTH]}
+				friction={1}
+				shape={'cuboid'}
+				args={[pyramid.stoneLength, pyramid.stoneHeight, pyramid.stoneLength]}
 			/>
 			<T.Mesh castShadow receiveShadow>
-				<!-- <T.BoxGeometry args={[STONE_LENGTH * 2, STONE_HEIGHT * 2, STONE_LENGTH * 2]} /> -->
-				<T.SphereGeometry args={[STONE_LENGTH]} />
+				<T.BoxGeometry
+					args={[pyramid.stoneLength * 2, pyramid.stoneHeight * 2, pyramid.stoneLength * 2]}
+				/>
 				<T.MeshStandardMaterial color="red" />
 			</T.Mesh>
 		</RigidBody>
 	</T.Group>
 {/each}
 
+<HTML transform position.y={3} pointerEvents={'none'}>
+	{#key open}
+		<small
+			in:blur={{
+				amount: 15,
+				duration: 300
+			}}
+			out:blur={{
+				amount: 15,
+				duration: 300
+			}}
+			class="door"
+			class:closed={!open}
+			class:open
+		>
+			{open ? 'UNLOCKED' : 'LOCKED'}
+		</small>
+	{/key}
+</HTML>
+
 <!-- GROUND -->
 <T.Group>
-	<AutoColliders shape={'cuboid'}>
+	<AutoColliders shape={'cuboid'} friction={0.4}>
 		<T.Mesh position={[0, -1, 0]} receiveShadow>
-			<T.BoxGeometry args={[40, 2, 40]} />
+			<T.BoxGeometry args={[40, 1, 40]} />
 			<T.MeshStandardMaterial color="#777" />
 		</T.Mesh>
 	</AutoColliders>
 </T.Group>
 
-<!-- <T.GridHelper args={[100, 100]} /> -->
+<!-- WALLS -->
+<T.Group>
+	<AutoColliders shape={'cuboid'} friction={0}>
+		<T.Mesh position={[0, 0, -20]} receiveShadow>
+			<T.BoxGeometry args={[41, 2, 1]} />
+			<T.MeshStandardMaterial color="#888" />
+		</T.Mesh>
+		<T.Mesh position={[0, 0, 20]} receiveShadow>
+			<T.BoxGeometry args={[41, 2, 1]} />
+			<T.MeshStandardMaterial color="#888" />
+		</T.Mesh>
+		<T.Mesh position={[-20, 0, 0]} receiveShadow>
+			<T.BoxGeometry args={[1, 2, 41]} />
+			<T.MeshStandardMaterial color="#888" />
+		</T.Mesh>
+		<T.Mesh position={[20, 0, 0]} receiveShadow>
+			<T.BoxGeometry args={[1, 2, 41]} />
+			<T.MeshStandardMaterial color="#888" />
+		</T.Mesh>
+	</AutoColliders>
+</T.Group>
+
+<!-- DETECTOR -->
+<!-- <RigidBody type="Static">
+	<Collider sensor shape={'cuboid'} args={[1, 1, 1]} />
+</RigidBody> -->
 
 <Gizmo horizontalPlacement="left" paddingX={20} paddingY={20} />
 
 <svelte:window on:keydown={handleKeyDown} on:keyup={handleKeyUp} />
+
+<style>
+	.door {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		font-size: 2rem;
+		color: white;
+		background: black;
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		transition: 0.5s;
+	}
+
+	.door.closed {
+		background: red;
+	}
+
+	.door.open {
+		background: green;
+	}
+</style>
