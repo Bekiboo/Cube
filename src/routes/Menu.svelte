@@ -6,8 +6,8 @@
 
 <HTML transform position.y={3} position.z={-17.5} pointerEvents={'none'}>
 	<!-- HP -->
-	<div class="border w-40 h-8 bg-black border-white">
-		<span></span>
+	<div class="w-96 h-16 bg-black border-white border-8">
+		<div class="bg-red-500 h-full" style="width: {($player.HP / 100) * 100}%;"></div>
 	</div>
 	<!-- {#key open}
 		<small
