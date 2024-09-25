@@ -3,7 +3,7 @@
 	import { blur } from 'svelte/transition'
 </script>
 
-<HTML transform position.y={3} pointerEvents={'none'}>
+<!-- <HTML transform position.y={3} pointerEvents={'none'}>
 	{#key open}
 		<small
 			in:blur={{
@@ -21,7 +21,7 @@
 			{open ? 'UNLOCKED' : 'LOCKED'}
 		</small>
 	{/key}
-</HTML>
+</HTML> -->
 
 <style>
 	.door {
