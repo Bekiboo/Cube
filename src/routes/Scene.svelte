@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { T, useTask } from '@threlte/core'
+	import { T } from '@threlte/core'
 	import { OrbitControls } from '@threlte/extras'
 	import { DEG2RAD } from 'three/src/math/MathUtils.js'
-	import { handleKeysDown, handleKeysUp } from './keyboardInputHandler'
 	import { generatePyramid } from './pyramidGenerator'
-	import { AutoColliders, Collider, RigidBody, Attractor, Debug } from '@threlte/rapier'
-	import { Vector3, Vector4 } from 'three'
+	import { Collider, RigidBody, Debug } from '@threlte/rapier'
 	import Menu from './Menu.svelte'
-	import { throttle } from './utils'
 	import Player from './Player.svelte'
 	import Board from './Board.svelte'
 
@@ -16,7 +13,7 @@
 		depth: 35
 	}
 
-	const pyramid = generatePyramid(5, 0.3, 0.3)
+	const pyramid = generatePyramid(1, 0.3, 0.3)
 </script>
 
 <!-- <T.PerspectiveCamera position={cameraPos} makeDefault fov={5} near={0.1} far={1000000}>

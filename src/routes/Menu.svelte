@@ -1,10 +1,15 @@
 <script lang="ts">
+	import { player } from '$lib/stores'
 	import { HTML } from '@threlte/extras'
 	import { blur } from 'svelte/transition'
 </script>
 
-<!-- <HTML transform position.y={3} pointerEvents={'none'}>
-	{#key open}
+<HTML transform position.y={3} position.z={-17.5} pointerEvents={'none'}>
+	<!-- HP -->
+	<div class="border w-40 h-8 bg-black border-white">
+		<span></span>
+	</div>
+	<!-- {#key open}
 		<small
 			in:blur={{
 				amount: 15,
@@ -20,28 +25,8 @@
 		>
 			{open ? 'UNLOCKED' : 'LOCKED'}
 		</small>
-	{/key}
-</HTML> -->
+	{/key} -->
+</HTML>
 
 <style>
-	.door {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		font-size: 2rem;
-		color: white;
-		background: black;
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
-		transition: 0.5s;
-	}
-
-	.door.closed {
-		background: red;
-	}
-
-	.door.open {
-		background: green;
-	}
 </style>
