@@ -1,23 +1,14 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core'
-	import { Gizmo, OrbitControls, HTML } from '@threlte/extras'
+	import { OrbitControls } from '@threlte/extras'
 	import { DEG2RAD } from 'three/src/math/MathUtils.js'
 	import { handleKeysDown, handleKeysUp } from './keyboardInputHandler'
 	import { generatePyramid } from './pyramidGenerator'
-	import {
-		AutoColliders,
-		Collider,
-		RigidBody,
-		BasicPlayerController,
-		Attractor,
-		Debug
-	} from '@threlte/rapier'
-	import { MeshStandardMaterial, CylinderGeometry, Vector3, Vector4 } from 'three'
-
-	import { Collider as C } from '@dimforge/rapier3d-compat'
+	import { AutoColliders, Collider, RigidBody, Attractor, Debug } from '@threlte/rapier'
+	import { Vector3, Vector4 } from 'three'
 	import Menu from './Menu.svelte'
-
-	let playerPos = [-5, 2, -5]
+	import { throttle } from './utils'
+	import { Player } from './Player'
 
 	let keysPressed = []
 
@@ -26,10 +17,7 @@
 	const handleKeyDown = (e) => (keysPressed = handleKeysDown(e, keysPressed))
 	const handleKeyUp = (e) => (keysPressed = handleKeysUp(e, keysPressed))
 
-	let player = {
-		size: [0.5, 0.5, 0.5],
-		pos: { x: -5, y: 0, z: -5 }
-	}
+	let player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0, z: -5 }, '#5D9FFF')
 
 	let collider
 
@@ -64,10 +52,22 @@
 
 	const pyramid = generatePyramid(1, 0.3, 0.3)
 
-	let open = true
-
 	$: collider?.setTranslation(new Vector3(player.pos.x, player.pos.y, player.pos.z))
 	$: collider?.setRotation(new Vector4(1))
+
+	function handleHit() {
+		// turn the player color white twice in a row when hit for 50ms each then return to original color
+		player.color = '#ccc'
+		setTimeout(() => {
+			player.color = '#5D9FFF'
+		}, 100)
+		setTimeout(() => {
+			player.color = '#ccc'
+		}, 200)
+		setTimeout(() => {
+			player.color = '#5D9FFF'
+		}, 300)
+	}
 </script>
 
 <!-- <T.PerspectiveCamera position={cameraPos} makeDefault fov={5} near={0.1} far={1000000}>
@@ -103,7 +103,7 @@
 <RigidBody type="dynamic">
 	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow>
 		<T.BoxGeometry args={[1, 1, 1]} />
-		<T.MeshStandardMaterial color={'#fab900'} />
+		<T.MeshStandardMaterial color={player.color} />
 		<Attractor range={30} {strength} />
 	</T.Mesh>
 </RigidBody>
@@ -115,6 +115,7 @@
 	restitution={0.4}
 	friction={1}
 	bind:collider
+	on:contact={throttle(handleHit, 500)}
 />
 
 <!-- PYRAMID -->
