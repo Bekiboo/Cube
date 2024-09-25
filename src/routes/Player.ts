@@ -8,7 +8,8 @@ export class Player {
 	size: [number, number, number]
 	pos: { x: number; y: number; z: number }
 	color: string
-	HP: number = 100
+	maxHP: number = 20
+	HP: number
 
 	constructor(
 		size: [number, number, number],
@@ -18,5 +19,6 @@ export class Player {
 		this.size = size
 		this.pos = pos
 		this.color = color
+		this.HP = this.maxHP
 	}
 }

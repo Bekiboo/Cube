@@ -13,7 +13,7 @@
 		depth: 35
 	}
 
-	const pyramid = generatePyramid(1, 0.3, 0.3)
+	const pyramid = generatePyramid(2, 0.3, 0.3)
 </script>
 
 <!-- <T.PerspectiveCamera position={cameraPos} makeDefault fov={5} near={0.1} far={1000000}>

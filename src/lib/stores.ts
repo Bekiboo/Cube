@@ -1,3 +1,4 @@
-import { writable } from 'svelte/store'
+import { writable, type Writable } from 'svelte/store'
+import type { Player } from '../routes/Player'
 
-export const player = writable(null)
+export const player: Writable<Player> = writable(null)
