@@ -19,8 +19,6 @@
 	const handleKeyDown = (e) => (keysPressed = handleKeysDown(e, keysPressed))
 	const handleKeyUp = (e) => (keysPressed = handleKeysUp(e, keysPressed))
 
-	$player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0, z: -5 }, '#5D9FFF')
-
 	let collider
 
 	useTask((delta) => {
@@ -67,7 +65,7 @@
 
 <RigidBody type="dynamic">
 	<T.Mesh position={[$player.pos.x, $player.pos.y, $player.pos.z]} castShadow>
-		<T.BoxGeometry args={[1, 1, 1]} />
+		<T.BoxGeometry args={[$player.size[0] * 2, $player.size[1] * 2, $player.size[2] * 2]} />
 		<T.MeshStandardMaterial color={$player.color} />
 		<Attractor range={30} {strength} />
 	</T.Mesh>
@@ -75,7 +73,7 @@
 
 <Collider
 	shape={'cuboid'}
-	args={[0.5, 0.5, 0.5]}
+	args={$player.size}
 	contactForceEventThreshold={30}
 	restitution={0.4}
 	friction={1}

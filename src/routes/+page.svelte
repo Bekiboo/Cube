@@ -1,10 +1,10 @@
 <script>
-	import { Canvas } from '@threlte/core';
-	import Scene from './Scene.svelte';
-	import { World } from '@threlte/rapier';
+	import { Canvas } from '@threlte/core'
+	import Scene from './Scene.svelte'
+	import { World } from '@threlte/rapier'
 </script>
 
-<main>
+<main class="text-cube">
 	<Canvas>
 		<World>
 			<Scene />
@@ -16,6 +16,7 @@
 	main {
 		width: 100vw;
 		height: 100vh;
+		position: absolute;
 	}
 
 	:global(body) {

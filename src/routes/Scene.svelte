@@ -2,24 +2,24 @@
 	import { T } from '@threlte/core'
 	import { OrbitControls } from '@threlte/extras'
 	import { DEG2RAD } from 'three/src/math/MathUtils.js'
-	import { generatePyramid } from './pyramidGenerator'
-	import { Collider, RigidBody, Debug } from '@threlte/rapier'
 	import Menu from './Menu.svelte'
-	import Player from './Player.svelte'
+	import PlayerComp from './PlayerComp.svelte'
 	import Board from './Board.svelte'
+	import Enemies from './Enemies.svelte'
+	import { game, player } from '$lib/stores'
+	import { Game } from './Game'
 
 	let ground = {
 		width: 35,
-		depth: 35
+		depth: 35,
+		height: 35
 	}
 
-	const pyramid = generatePyramid(2, 0.3, 0.3)
+	$game = new Game()
 </script>
 
-<!-- <T.PerspectiveCamera position={cameraPos} makeDefault fov={5} near={0.1} far={1000000}>
-	</T.PerspectiveCamera> -->
-
 <!-- <Debug /> -->
+<!-- <T.GridHelper args={[50]} position.y={0.01} /> -->
 
 <T.PerspectiveCamera
 	makeDefault
@@ -27,7 +27,7 @@
 	fov={5}
 	zoom={0.5}
 	near={0.1}
-	far={1000000}
+	far={1000}
 	on:create={({ ref }) => {
 		ref.lookAt(0, 1, 0)
 	}}
@@ -45,37 +45,11 @@
 
 <T.AmbientLight intensity={0.5} />
 
-<!-- PLAYER -->
-<Player {ground} />
-
-<!-- PYRAMID -->
-{#each pyramid.stones as [x, y, z], i}
-	<T.Group position={[x, y, z]}>
-		<RigidBody type="dynamic">
-			<Collider
-				contactForceEventThreshold={30}
-				restitution={0.4}
-				friction={1}
-				shape={'cuboid'}
-				args={[pyramid.stoneLength, pyramid.stoneHeight, pyramid.stoneLength]}
-			/>
-			<T.Mesh castShadow receiveShadow>
-				<T.BoxGeometry
-					args={[pyramid.stoneLength * 2, pyramid.stoneHeight * 2, pyramid.stoneLength * 2]}
-				/>
-				<T.MeshStandardMaterial color="red" />
-			</T.Mesh>
-		</RigidBody>
-	</T.Group>
-{/each}
+{#if $player}
+	<PlayerComp {ground} />
+{/if}
+<Enemies />
 
 <Menu />
 
 <Board {ground} />
-
-<!-- DETECTOR -->
-<!-- <RigidBody type="Static">
-	<Collider sensor shape={'cuboid'} args={[1, 1, 1]} />
-</RigidBody> -->
-
-<!-- <Gizmo horizontalPlacement="left" paddingX={20} paddingY={20} /> -->
