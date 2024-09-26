@@ -1,4 +1,3 @@
-import { game, player } from '$lib/stores'
 import { Vector3 } from 'three'
 import { Player } from './Player'
 import { Enemy } from './Enemy'
@@ -31,8 +30,6 @@ export class Game {
 		this.score = 0
 		this.player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0.5, z: -5 }, '#5D9FFF')
 		this.timeGameStarted = Date.now()
-		player.set(this.player)
-		game.set(this)
 	}
 
 	endGame() {

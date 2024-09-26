@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { player } from '$lib/stores'
 	import { T } from '@threlte/core'
 	import { AutoColliders } from '@threlte/rapier'
 

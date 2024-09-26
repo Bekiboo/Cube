@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { player } from '$lib/stores'
-	import { spring } from 'svelte/motion'
 	import { HTML } from '@threlte/extras'
-	import { fade, fly } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
 	import type { Game } from './Game'
 
@@ -66,7 +64,10 @@
 			in:fade={{ duration: 150, delay: 150, easing: quintOut }}
 			class="w-96 h-16 bg-black duration-150 border-white border-8"
 		>
-			<div class="bg-red-500 h-full" style="width: {(100 / $player.maxHP) * $player.HP}%;"></div>
+			<div
+				class="bg-red-500 h-full"
+				style="width: {(100 / game.player.maxHP) * game.player.HP}%;"
+			></div>
 		</div>
 	{/if}
 </HTML>

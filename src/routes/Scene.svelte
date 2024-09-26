@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { T } from '@threlte/core'
-	import { OrbitControls } from '@threlte/extras'
+	import { OrbitControls, AudioListener } from '@threlte/extras'
 	import { DEG2RAD } from 'three/src/math/MathUtils.js'
 	import Menu from './Menu.svelte'
 	import PlayerComp from './PlayerComp.svelte'
 	import EnemyComp from './EnemyComp.svelte'
 	import Board from './Board.svelte'
-	import { player } from '$lib/stores'
 	import { Game } from './Game'
 	import { useTask } from '@threlte/core'
 
@@ -39,6 +38,7 @@
 	}}
 >
 	<OrbitControls maxPolarAngle={85 * DEG2RAD} minPolarAngle={20 * DEG2RAD} />
+	<AudioListener />
 </T.PerspectiveCamera>
 <T.DirectionalLight
 	position={[10, 20, 10]}
@@ -51,8 +51,8 @@
 
 <T.AmbientLight intensity={0.5} />
 
-{#if $player}
-	<PlayerComp {ground} />
+{#if game.player}
+	<PlayerComp {ground} player={game.player} />
 {/if}
 
 {#each game.enemies as enemy}
