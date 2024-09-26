@@ -27,20 +27,21 @@
 		if (keysPressed.includes('left')) $player.pos.x -= 10 * delta
 		if (keysPressed.includes('right')) $player.pos.x += 10 * delta
 
-		switch (true) {
-			case $player.pos.x > ground.width / 2 - $player.size[0]:
-				$player.pos.x = ground.width / 2 - $player.size[0]
-				break
-			case $player.pos.x < -ground.width / 2 + $player.size[0]:
-				$player.pos.x = -ground.width / 2 + $player.size[0]
-				break
-			case $player.pos.z > ground.depth / 2 - $player.size[2]:
-				$player.pos.z = ground.depth / 2 - $player.size[2]
-				break
-			case $player.pos.z < -ground.depth / 2 + $player.size[2]:
-				$player.pos.z = -ground.depth / 2 + $player.size[2]
-				break
-		}
+		// right wall
+		if ($player.pos.x > ground.width / 2 - $player.size[0])
+			$player.pos.x = ground.width / 2 - $player.size[0]
+
+		// left wall
+		if ($player.pos.x < -ground.width / 2 + $player.size[0])
+			$player.pos.x = -ground.width / 2 + $player.size[0]
+
+		// back wall
+		if ($player.pos.z > ground.depth / 2 - $player.size[2])
+			$player.pos.z = ground.depth / 2 - $player.size[2]
+
+		// front wall
+		if ($player.pos.z < -ground.depth / 2 + $player.size[2])
+			$player.pos.z = -ground.depth / 2 + $player.size[2]
 	})
 
 	$: collider?.setTranslation(new Vector3($player.pos.x, $player.pos.y, $player.pos.z))
