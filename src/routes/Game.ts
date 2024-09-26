@@ -22,19 +22,20 @@ export class Game {
 		this.state = 'Menu'
 		this.score = 0
 		this.highScore = 0
-		// this.player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0.5, z: -5 }, '#5D9FFF')
+		this.player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0.5, z: -5 }, '#5D9FFF')
 	}
 
 	startGame() {
 		this.state = 'Playing'
 		this.score = 0
-		this.player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0.5, z: -5 }, '#5D9FFF')
+		this.player.HP = this.player.maxHP
 		this.timeGameStarted = Date.now()
 	}
 
 	endGame() {
 		this.state = 'GameOver'
 		this.highScore = Math.max(this.score, this.highScore)
+		this.enemies = []
 	}
 
 	update() {
@@ -49,6 +50,14 @@ export class Game {
 						'blue'
 					)
 				)
+			}
+
+			if (this.enemies.length > 50) {
+				this.enemies.shift()
+			}
+
+			if (this.player.HP <= 0) {
+				this.endGame()
 			}
 		}
 	}
