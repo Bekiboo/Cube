@@ -4,18 +4,24 @@
 	import { DEG2RAD } from 'three/src/math/MathUtils.js'
 	import Menu from './Menu.svelte'
 	import PlayerComp from './PlayerComp.svelte'
+	import EnemyComp from './EnemyComp.svelte'
 	import Board from './Board.svelte'
-	import Enemies from './Enemies.svelte'
-	import { game, player } from '$lib/stores'
+	import { player } from '$lib/stores'
 	import { Game } from './Game'
+	import { useTask } from '@threlte/core'
 
 	let ground = {
 		width: 35,
 		depth: 35,
 		height: 35
 	}
+	let game = new Game()
 
-	$game = new Game()
+	useTask(() => {
+		game.update()
+
+		game = game
+	})
 </script>
 
 <!-- <Debug /> -->
@@ -48,8 +54,11 @@
 {#if $player}
 	<PlayerComp {ground} />
 {/if}
-<Enemies />
 
-<Menu />
+{#each game.enemies as enemy}
+	<EnemyComp position={enemy.pos} />
+{/each}
+
+<Menu {game} />
 
 <Board {ground} />
