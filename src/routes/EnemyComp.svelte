@@ -1,49 +1,20 @@
 <script lang="ts">
 	import { T } from '@threlte/core'
-	import { Collider, RigidBody, type ContactEvent } from '@threlte/rapier'
-	import type { Vector3 } from 'three'
-	import { PositionalAudio } from '@threlte/extras'
+	import { Collider, RigidBody } from '@threlte/rapier'
+	import type { Enemy } from './Enemy'
 
-	export let position: Vector3 | undefined = undefined
+	export let enemy: Enemy
 
-	import { clamp } from 'three/src/math/MathUtils.js'
-
-	const audios: {
-		threshold: number
-		volume: number
-		stop: (() => any) | undefined
-		play: ((...args: any[]) => any) | undefined
-		source: string
-	}[] = new Array(9).fill(0).map((_, i) => {
-		return {
-			threshold: i / 10,
-			play: undefined,
-			stop: undefined,
-			volume: (i + 2) / 10,
-			source: `/bounce.wav`
-		}
-	})
-	const fireSound = (e: ContactEvent) => {
-		const volume = clamp((e.totalForceMagnitude - 30) / 1100, 0.1, 1)
-		const audio = audios.find((a) => a.volume >= volume)
-		audio?.stop?.()
-		audio?.play?.()
-	}
+	let { pos: position } = enemy
 </script>
 
 <T.Group position={position?.toArray()}>
-	<!-- on:contact={fireSound} -->
-	<RigidBody type="dynamic" on:contact={fireSound}>
-		{#each audios as audio}
-			<PositionalAudio
-				autoplay={false}
-				detune={600 - Math.random() * 1200}
-				bind:stop={audio.stop}
-				bind:play={audio.play}
-				src={audio.source}
-				volume={audio.volume}
-			/>
-		{/each}
+	<RigidBody
+		type="dynamic"
+		on:contact={(e) => {
+			console.log(e.targetCollider.handle)
+		}}
+	>
 		<Collider
 			contactForceEventThreshold={30}
 			restitution={0.4}

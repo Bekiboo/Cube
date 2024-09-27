@@ -30,6 +30,13 @@ export class Game {
 		this.score = 0
 		this.player.HP = this.player.maxHP
 		this.timeGameStarted = Date.now()
+		this.enemies.push(
+			new Enemy(
+				[0.5, 5, 0.5],
+				new Vector3(Math.random() * 35 - 35 / 2, 10, Math.random() * 35 - 35 / 2),
+				'red'
+			)
+		)
 	}
 
 	endGame() {
@@ -41,19 +48,16 @@ export class Game {
 	update() {
 		if (this.state === 'Playing') {
 			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 1_000_000
+
 			// spawn enemies
 			if (Math.random() < this.spawningRate) {
 				this.enemies.push(
 					new Enemy(
 						[0.5, 5, 0.5],
 						new Vector3(Math.random() * 35 - 35 / 2, 10, Math.random() * 35 - 35 / 2),
-						'blue'
+						'red'
 					)
 				)
-			}
-
-			if (this.enemies.length > 50) {
-				this.enemies.shift()
 			}
 
 			if (this.player.HP <= 0) {

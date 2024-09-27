@@ -31,16 +31,11 @@
 		</div>
 	{/if}
 	{#if game.state === 'GameOver'}
-		<div
-			class="flex justify-center items-center w-screen h-screen"
-			in:fade={{ duration: 500, delay: 500, easing: quintOut }}
-		>
-			<div class="bg-white p-4 rounded-lg">
-				<h1 class="text-2xl">Game Over</h1>
-				<button class="bg-blue-500 text-white p-2 rounded-lg mt-4" on:click={() => game.startGame()}
-					>Restart</button
-				>
-			</div>
+		<div class="bg-white p-4 rounded-lg" in:fade={{ duration: 500, delay: 500, easing: quintOut }}>
+			<h1 class="text-2xl">Game Over</h1>
+			<button class="bg-blue-500 text-white p-2 rounded-lg mt-4" on:click={() => game.startGame()}
+				>Restart</button
+			>
 		</div>
 	{/if}
 

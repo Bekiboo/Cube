@@ -14,7 +14,7 @@
 
 	export let player: Player
 
-	let strength = 0.0625
+	let strength = 0.03
 	let keysPressed = []
 
 	const handleKeyDown = (e) => (keysPressed = handleKeysDown(e, keysPressed))
@@ -69,7 +69,7 @@
 	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow>
 		<T.BoxGeometry args={[player.size[0] * 2, player.size[1] * 2, player.size[2] * 2]} />
 		<T.MeshStandardMaterial color={player.color} />
-		<Attractor range={30} {strength} />
+		<Attractor range={40} gravityType="linear" {strength} />
 	</T.Mesh>
 </RigidBody>
 
