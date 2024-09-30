@@ -55,4 +55,4 @@
 
 <Board ground={game.ground} on:removeEnemy={removeEnemy} />
 
-<Menu {game} />
+<Menu {game} ground={game.ground} />

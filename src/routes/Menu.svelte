@@ -4,12 +4,12 @@
 	import { quintOut } from 'svelte/easing'
 	import type { Game } from './Game'
 
-	let htmlPosZ = -17.5
+	export let ground = -17.5
 
 	export let game: Game
 </script>
 
-<HTML transform position.y={3} position.z={htmlPosZ} class="bg-red-500">
+<HTML transform position.y={3} position.z={-ground / 2} class="bg-red-500">
 	{#if game.state === 'Menu'}
 		<div class="flex flex-col" in:fade={{ duration: 500, delay: 500, easing: quintOut }}>
 			<h1 class="font-black text-red-500 text-9xl">CUBE</h1>
@@ -46,6 +46,3 @@
 		</div>
 	{/if}
 </HTML>
-
-<style>
-</style>
