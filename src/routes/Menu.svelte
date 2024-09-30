@@ -4,8 +4,6 @@
 	import { quintOut } from 'svelte/easing'
 	import type { Game } from './Game'
 
-	let isPointerDown = false
-
 	let htmlPosZ = -17.5
 
 	export let game: Game
@@ -17,17 +15,12 @@
 			<h1 class="font-black text-red-500 text-9xl">CUBE</h1>
 			<button
 				class="p-2 mx-auto mt-4 text-4xl text-white bg-blue-500 hover:bg-blue-400"
-				on:pointerdown={() => (isPointerDown = true)}
-				on:pointerup={() => (isPointerDown = false)}
-				on:pointercancel={() => {
-					isPointerDown = false
-				}}
 				on:click={() => game.startGame()}>Start</button
 			>
 		</div>
 	{/if}
 	{#if game.state === 'GameOver'}
-		<div class="text-4xl text-center text-white">Score: {game.timer}</div>
+		<div class="text-4xl text-center text-white">Score: {game.score}</div>
 		<div
 			class="flex flex-col justify-center p-4"
 			in:fade={{ duration: 500, delay: 500, easing: quintOut }}
@@ -41,7 +34,7 @@
 	{/if}
 
 	{#if game.state === 'Playing'}
-		<div class="text-4xl text-center text-white">Score: {game.timer}</div>
+		<div class="text-4xl text-center text-white">Score: {game.score}</div>
 		<div
 			in:fade={{ duration: 150, delay: 150, easing: quintOut }}
 			class="h-16 duration-150 bg-black border-8 border-white w-96"

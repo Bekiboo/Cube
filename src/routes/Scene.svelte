@@ -1,18 +1,17 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core'
-	import { OrbitControls } from '@threlte/extras'
-
 	import Menu from './Menu.svelte'
 	import PlayerComp from './PlayerComp.svelte'
 	import EnemyComp from './EnemyComp.svelte'
 	import Board from './Board.svelte'
 	import { Game } from './Game'
-	import { Debug } from '@threlte/rapier'
 
 	let game = new Game()
+	let enemies = []
 
 	useTask(() => {
 		game.update()
+		enemies = game.enemies
 		game = game
 	})
 
@@ -20,9 +19,6 @@
 		game.removeEnemy(e.detail)
 	}
 </script>
-
-<!-- <Debug /> -->
-<!-- <T.GridHelper args={[50]} position.y={0.01} /> -->
 
 <T.PerspectiveCamera
 	makeDefault
@@ -34,9 +30,7 @@
 	on:create={({ ref }) => {
 		ref.lookAt(0, 0, 0)
 	}}
->
-	<!-- <OrbitControls /> -->
-</T.PerspectiveCamera>
+></T.PerspectiveCamera>
 
 <T.DirectionalLight
 	position={[10, 20, 10]}
@@ -49,14 +43,16 @@
 
 <T.AmbientLight intensity={0.5} />
 
-<Menu {game} />
-
 {#if game.player}
 	<PlayerComp ground={game.ground} player={game.player} />
 {/if}
 
-{#each game.enemies as enemy}
-	<EnemyComp {enemy} />
+{#each enemies as enemy}
+	{#if !enemy.markedForDeletion}
+		<EnemyComp {enemy} />
+	{/if}
 {/each}
 
 <Board ground={game.ground} on:removeEnemy={removeEnemy} />
+
+<Menu {game} />

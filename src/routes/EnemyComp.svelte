@@ -8,20 +8,18 @@
 	let { pos: position } = enemy
 </script>
 
-{#if !enemy.markedForDeletion}
-	<T.Group position={[position.x, position.y, position.z]}>
-		<RigidBody type="dynamic" userData={enemy}>
-			<Collider
-				contactForceEventThreshold={30}
-				restitution={0.4}
-				friction={1}
-				shape={'cuboid'}
-				args={[0.25, 0.25, 0.25]}
-			/>
-			<T.Mesh castShadow receiveShadow>
-				<T.BoxGeometry args={[0.25 * 2, 0.25 * 2, 0.25 * 2]} />
-				<T.MeshStandardMaterial color={enemy.markedForDeletion ? 'gray' : 'red'} />
-			</T.Mesh>
-		</RigidBody>
-	</T.Group>
-{/if}
+<T.Group position={[position.x, position.y, position.z]}>
+	<RigidBody type="dynamic" userData={enemy}>
+		<Collider
+			contactForceEventThreshold={30}
+			restitution={0.4}
+			friction={1}
+			shape={'cuboid'}
+			args={enemy.size}
+		/>
+		<T.Mesh castShadow receiveShadow>
+			<T.BoxGeometry args={[enemy.size[0] * 2, enemy.size[1] * 2, enemy.size[2] * 2]} />
+			<T.MeshStandardMaterial color={enemy.markedForDeletion ? 'gray' : 'red'} />
+		</T.Mesh>
+	</RigidBody>
+</T.Group>

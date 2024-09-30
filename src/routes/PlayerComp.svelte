@@ -11,7 +11,7 @@
 
 	export let player: Player
 
-	let strength = 0.03
+	let strength = 0.25
 	let keysPressed = []
 
 	const handleKeyDown = (e) => (keysPressed = handleKeysDown(e, keysPressed))
