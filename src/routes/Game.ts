@@ -49,7 +49,7 @@ export class Game {
 
 	update() {
 		if (this.state === 'Playing') {
-			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 100_000_0
+			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 100_000
 
 			// spawn enemies
 			if (Math.random() < this.spawningRate) {
