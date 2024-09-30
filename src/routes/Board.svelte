@@ -45,6 +45,6 @@
 </T.Group>
 
 <!-- SENSOR -->
-<T.Group position={[0, -2, 0]}>
+<T.Group position={[0, -4, 0]}>
 	<Collider on:sensorenter={removeEnemy} sensor shape={'cuboid'} args={[100, 1, 100]} />
 </T.Group>

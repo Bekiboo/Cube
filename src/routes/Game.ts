@@ -49,7 +49,7 @@ export class Game {
 
 	update() {
 		if (this.state === 'Playing') {
-			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 100_000
+			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 100_000_0
 
 			// spawn enemies
 			if (Math.random() < this.spawningRate) {
@@ -58,7 +58,7 @@ export class Game {
 						[0.5, 5, 0.5],
 						new Vector3(
 							Math.random() * this.ground - this.ground / 2,
-							this.ground / 2 + 10,
+							this.ground / 2 + 5,
 							Math.random() * this.ground - this.ground / 2
 						),
 						'red'
@@ -74,7 +74,11 @@ export class Game {
 	}
 
 	removeEnemy(id: string) {
-		this.enemies = this.enemies.filter((enemy) => enemy.id !== id)
+		this.enemies.forEach((enemy) => {
+			if (enemy.id === id) {
+				enemy.markedForDeletion = true
+			}
+		})
 	}
 
 	increaseScore() {

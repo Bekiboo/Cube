@@ -9,6 +9,7 @@ export class Enemy {
 	color: string
 	maxHP: number = 10
 	HP: number
+	markedForDeletion: boolean = false
 	id: string
 
 	constructor(size: [number, number, number], pos: Vector3, color: string) {
