@@ -5,17 +5,13 @@
 // }
 
 export class Player {
-	size: [number, number, number]
+	size: number
 	pos: { x: number; y: number; z: number }
 	color: string
 	maxHP: number = 20
 	HP: number
 
-	constructor(
-		size: [number, number, number],
-		pos: { x: number; y: number; z: number },
-		color: string
-	) {
+	constructor(size: number, pos: { x: number; y: number; z: number }, color: string) {
 		this.size = size
 		this.pos = pos
 		this.color = color

@@ -17,12 +17,14 @@ export class Game {
 	timeGameStarted: number
 	spawningRate: number
 	enemies: Enemy[] = []
+	ground: number
 
 	constructor() {
 		this.state = 'Menu'
 		this.score = 0
 		this.highScore = 0
-		this.player = new Player([0.5, 0.5, 0.5], { x: -5, y: 0.5, z: -5 }, '#5D9FFF')
+		this.ground = 35
+		this.player = new Player(0.5, { x: 0, y: 0 + 0.5, z: 0 }, '#5D9FFF')
 	}
 
 	startGame() {
@@ -33,7 +35,11 @@ export class Game {
 		this.enemies.push(
 			new Enemy(
 				[0.5, 5, 0.5],
-				new Vector3(Math.random() * 35 - 35 / 2, 10, Math.random() * 35 - 35 / 2),
+				new Vector3(
+					Math.random() * this.ground - this.ground / 2,
+					this.ground / 2 + 10,
+					Math.random() * this.ground - this.ground / 2
+				),
 				'red'
 			)
 		)
@@ -54,7 +60,11 @@ export class Game {
 				this.enemies.push(
 					new Enemy(
 						[0.5, 5, 0.5],
-						new Vector3(Math.random() * 35 - 35 / 2, 10, Math.random() * 35 - 35 / 2),
+						new Vector3(
+							Math.random() * this.ground - this.ground / 2,
+							this.ground / 2 + 10,
+							Math.random() * this.ground - this.ground / 2
+						),
 						'red'
 					)
 				)

@@ -2,11 +2,7 @@
 	import { T } from '@threlte/core'
 	import { AutoColliders, Collider } from '@threlte/rapier'
 
-	export let ground = {
-		width: 35,
-		depth: 35,
-		height: 35
-	}
+	export let ground = 20
 
 	function removeEnemy() {
 		console.log('Enemy removed')
@@ -16,8 +12,8 @@
 <!-- GROUND -->
 <T.Group>
 	<AutoColliders shape={'cuboid'} friction={0.4}>
-		<T.Mesh position={[0, -ground.height / 2, 0]} receiveShadow>
-			<T.BoxGeometry args={[ground.width + 2, ground.height, ground.depth + 2]} />
+		<T.Mesh position={[0, -ground / 2, 0]} receiveShadow>
+			<T.BoxGeometry args={[ground + 2, ground, ground + 2]} />
 			<T.MeshStandardMaterial color="#777" />
 		</T.Mesh>
 	</AutoColliders>
@@ -26,20 +22,20 @@
 <!-- WALLS -->
 <T.Group>
 	<AutoColliders shape={'cuboid'} friction={0}>
-		<T.Mesh position={[0, 0.5, -(ground.width + 1) / 2]} receiveShadow>
-			<T.BoxGeometry args={[ground.width + 2, 1, 1]} />
+		<T.Mesh position={[0, 0.5, -(ground + 1) / 2]} receiveShadow>
+			<T.BoxGeometry args={[ground + 2, 1, 1]} />
 			<T.MeshStandardMaterial color="#888" />
 		</T.Mesh>
-		<T.Mesh position={[0, 0.5, (ground.width + 1) / 2]} receiveShadow>
-			<T.BoxGeometry args={[ground.width + 2, 1, 1]} />
+		<T.Mesh position={[0, 0.5, (ground + 1) / 2]} receiveShadow>
+			<T.BoxGeometry args={[ground + 2, 1, 1]} />
 			<T.MeshStandardMaterial color="#888" />
 		</T.Mesh>
-		<T.Mesh position={[-(ground.depth + 1) / 2, 0.5, 0]} receiveShadow>
-			<T.BoxGeometry args={[1, 1, ground.depth + 2]} />
+		<T.Mesh position={[-(ground + 1) / 2, 0.5, 0]} receiveShadow>
+			<T.BoxGeometry args={[1, 1, ground + 2]} />
 			<T.MeshStandardMaterial color="#888" />
 		</T.Mesh>
-		<T.Mesh position={[(ground.depth + 1) / 2, 0.5, 0]} receiveShadow>
-			<T.BoxGeometry args={[1, 1, ground.depth + 2]} />
+		<T.Mesh position={[(ground + 1) / 2, 0.5, 0]} receiveShadow>
+			<T.BoxGeometry args={[1, 1, ground + 2]} />
 			<T.MeshStandardMaterial color="#888" />
 		</T.Mesh>
 	</AutoColliders>

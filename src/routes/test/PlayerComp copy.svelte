@@ -2,12 +2,15 @@
 	import { RigidBody, Collider } from '@threlte/rapier'
 	import { T, useTask } from '@threlte/core'
 	import { Attractor } from '@threlte/rapier'
-	import { throttle } from './utils'
+	import { throttle } from '../utils'
 	import { Vector3, Vector4 } from 'three'
-	import { Player } from './Player'
-	import { handleKeysDown, handleKeysUp } from './keyboardInputHandler'
+	import { Player } from '../Player'
+	import { handleKeysDown, handleKeysUp } from '../keyboardInputHandler'
 
-	export let ground = 35
+	export let ground = {
+		width: 35,
+		depth: 35
+	}
 
 	export let player: Player
 
@@ -26,16 +29,20 @@
 		if (keysPressed.includes('right')) player.pos.x += 10 * delta
 
 		// right wall
-		if (player.pos.x > ground / 2 - player.size) player.pos.x = ground / 2 - player.size
+		if (player.pos.x > ground.width / 2 - player.size[0])
+			player.pos.x = ground.width / 2 - player.size[0]
 
 		// left wall
-		if (player.pos.x < -ground / 2 + player.size) player.pos.x = -ground / 2 + player.size
+		if (player.pos.x < -ground.width / 2 + player.size[0])
+			player.pos.x = -ground.width / 2 + player.size[0]
 
 		// back wall
-		if (player.pos.z > ground / 2 - player.size) player.pos.z = ground / 2 - player.size
+		if (player.pos.z > ground.depth / 2 - player.size[2])
+			player.pos.z = ground.depth / 2 - player.size[2]
 
 		// front wall
-		if (player.pos.z < -ground / 2 + player.size) player.pos.z = -ground / 2 + player.size
+		if (player.pos.z < -ground.depth / 2 + player.size[2])
+			player.pos.z = -ground.depth / 2 + player.size[2]
 	})
 
 	$: collider?.setTranslation(new Vector3(player.pos.x, player.pos.y, player.pos.z))
@@ -60,7 +67,7 @@
 
 <RigidBody type="dynamic">
 	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow>
-		<T.BoxGeometry args={[player.size * 2, player.size * 2, player.size * 2]} />
+		<T.BoxGeometry args={[player.size[0] * 2, player.size[1] * 2, player.size[2] * 2]} />
 		<T.MeshStandardMaterial color={player.color} />
 		<Attractor range={40} gravityType="linear" {strength} />
 	</T.Mesh>
@@ -68,7 +75,7 @@
 
 <Collider
 	shape={'cuboid'}
-	args={[player.size, player.size, player.size]}
+	args={[player.size[0], player.size[1], player.size[2]]}
 	contactForceEventThreshold={30}
 	restitution={0.4}
 	friction={1}

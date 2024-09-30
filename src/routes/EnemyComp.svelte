@@ -2,19 +2,15 @@
 	import { T } from '@threlte/core'
 	import { Collider, RigidBody } from '@threlte/rapier'
 	import type { Enemy } from './Enemy'
+	import { Edges } from '@threlte/extras'
 
 	export let enemy: Enemy
 
 	let { pos: position } = enemy
 </script>
 
-<T.Group position={position?.toArray()}>
-	<RigidBody
-		type="dynamic"
-		on:contact={(e) => {
-			console.log(e.targetCollider.handle)
-		}}
-	>
+<T.Group position={[position.x, position.y, position.z]}>
+	<RigidBody type="dynamic" userData={enemy}>
 		<Collider
 			contactForceEventThreshold={30}
 			restitution={0.4}
@@ -25,6 +21,7 @@
 		<T.Mesh castShadow receiveShadow>
 			<T.BoxGeometry args={[0.25 * 2, 0.25 * 2, 0.25 * 2]} />
 			<T.MeshStandardMaterial color="red" />
+			<!-- <Edges  color="#880000" /> -->
 		</T.Mesh>
 	</RigidBody>
 </T.Group>
