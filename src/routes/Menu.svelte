@@ -9,10 +9,6 @@
 	let htmlPosZ = -17.5
 
 	export let game: Game
-	// let htmlPosZ = spring(0)
-	// $: htmlPosZ.set(isPointerDown ? -0.15 : 0, {
-	// 	hard: isPointerDown
-	// })
 </script>
 
 <HTML transform position.y={3} position.z={htmlPosZ} class="bg-red-500">
@@ -20,7 +16,7 @@
 		<div class="flex flex-col" in:fade={{ duration: 500, delay: 500, easing: quintOut }}>
 			<h1 class="font-black text-red-500 text-9xl">CUBE</h1>
 			<button
-				class="bg-blue-500 text-4xl mx-auto hover:bg-blue-400 text-white p-2 mt-4"
+				class="p-2 mx-auto mt-4 text-4xl text-white bg-blue-500 hover:bg-blue-400"
 				on:pointerdown={() => (isPointerDown = true)}
 				on:pointerup={() => (isPointerDown = false)}
 				on:pointercancel={() => {
@@ -31,36 +27,27 @@
 		</div>
 	{/if}
 	{#if game.state === 'GameOver'}
-		<div class="bg-white p-4 rounded-lg" in:fade={{ duration: 500, delay: 500, easing: quintOut }}>
-			<h1 class="text-2xl">Game Over</h1>
-			<button class="bg-blue-500 text-white p-2 rounded-lg mt-4" on:click={() => game.startGame()}
-				>Restart</button
+		<div class="text-4xl text-center text-white">Score: {game.timer}</div>
+		<div
+			class="flex flex-col justify-center p-4"
+			in:fade={{ duration: 500, delay: 500, easing: quintOut }}
+		>
+			<h1 class="text-2xl text-center text-red-500">Game Over</h1>
+			<button
+				class="p-2 mt-4 text-2xl text-white bg-blue-500 rounded-lg"
+				on:click={() => game.startGame()}>Restart</button
 			>
 		</div>
 	{/if}
 
 	{#if game.state === 'Playing'}
-		<!-- <div class="bg-red-500 w-screen">
-                <div class="text-white left-2 top-2">
-                    <div class="flex justify-center w-full">
-                        <kbd class="kbd">W</kbd>
-                    </div>
-                    <div class="flex justify-center w-full">
-                        <kbd class="kbd">A</kbd>
-                        <kbd class="kbd">S</kbd>
-                        <kbd class="kbd">D</kbd>
-                    </div>
-                    <div class="flex justify-center w-full mt-2">
-                        <kbd class="kbd">Space</kbd>
-                    </div>
-                </div>
-            </div> -->
+		<div class="text-4xl text-center text-white">Score: {game.timer}</div>
 		<div
 			in:fade={{ duration: 150, delay: 150, easing: quintOut }}
-			class="w-96 h-16 bg-black duration-150 border-white border-8"
+			class="h-16 duration-150 bg-black border-8 border-white w-96"
 		>
 			<div
-				class="bg-red-500 h-full"
+				class="h-full bg-red-500"
 				style="width: {(100 / game.player.maxHP) * game.player.HP}%;"
 			></div>
 		</div>

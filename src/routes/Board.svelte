@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { T } from '@threlte/core'
 	import { AutoColliders, Collider } from '@threlte/rapier'
+	import { createEventDispatcher } from 'svelte'
+
+	const dispatch = createEventDispatcher()
 
 	export let ground = 20
 
-	function removeEnemy() {
-		console.log('Enemy removed')
+	function removeEnemy(e) {
+		dispatch('removeEnemy', e.targetRigidBody.userData.id)
 	}
 </script>
 

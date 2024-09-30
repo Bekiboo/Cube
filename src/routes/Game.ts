@@ -2,13 +2,6 @@ import { Vector3 } from 'three'
 import { Player } from './Player'
 import { Enemy } from './Enemy'
 
-const getId = () => {
-	return Math.random().toString(16).slice(2)
-}
-const getRandomPosition = () => {
-	return new Vector3(0.5 - Math.random() * 1, 5 - Math.random() * 1 + 10, 0.5 - Math.random() * 1)
-}
-
 export class Game {
 	state: 'Menu' | 'Playing' | 'GameOver'
 	score: number
@@ -18,6 +11,7 @@ export class Game {
 	spawningRate: number
 	enemies: Enemy[] = []
 	ground: number
+	timer: number
 
 	constructor() {
 		this.state = 'Menu'
@@ -25,11 +19,13 @@ export class Game {
 		this.highScore = 0
 		this.ground = 35
 		this.player = new Player(0.5, { x: 0, y: 0 + 0.5, z: 0 }, '#5D9FFF')
+		this.timer = 0
 	}
 
 	startGame() {
 		this.state = 'Playing'
 		this.score = 0
+		this.timer = 0
 		this.player.HP = this.player.maxHP
 		this.timeGameStarted = Date.now()
 		this.enemies.push(
@@ -53,7 +49,7 @@ export class Game {
 
 	update() {
 		if (this.state === 'Playing') {
-			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 1_000_000
+			this.spawningRate = 0.01 + (Date.now() - this.timeGameStarted) / 100_000
 
 			// spawn enemies
 			if (Math.random() < this.spawningRate) {
@@ -73,7 +69,12 @@ export class Game {
 			if (this.player.HP <= 0) {
 				this.endGame()
 			}
+			this.timer++
 		}
+	}
+
+	removeEnemy(id: string) {
+		this.enemies = this.enemies.filter((enemy) => enemy.id !== id)
 	}
 
 	increaseScore() {

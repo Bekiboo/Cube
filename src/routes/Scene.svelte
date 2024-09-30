@@ -13,26 +13,29 @@
 
 	useTask(() => {
 		game.update()
-
 		game = game
 	})
+
+	function removeEnemy(e) {
+		game.removeEnemy(e.detail)
+	}
 </script>
 
-<Debug />
+<!-- <Debug /> -->
 <!-- <T.GridHelper args={[50]} position.y={0.01} /> -->
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[0, 120, 150]}
+	position={[30, 90, 200]}
 	fov={5}
 	zoom={0.5}
 	near={0.1}
 	far={1000}
 	on:create={({ ref }) => {
-		ref.lookAt(0, 10, 0)
+		ref.lookAt(0, 0, 0)
 	}}
 >
-	<OrbitControls />
+	<!-- <OrbitControls /> -->
 </T.PerspectiveCamera>
 
 <T.DirectionalLight
@@ -56,4 +59,4 @@
 	<EnemyComp {enemy} />
 {/each}
 
-<Board ground={game.ground} />
+<Board ground={game.ground} on:removeEnemy={removeEnemy} />
