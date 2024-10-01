@@ -59,7 +59,7 @@
 </script>
 
 <RigidBody type="dynamic">
-	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow>
+	<T.Mesh position={[player.pos.x, player.pos.y, player.pos.z]} castShadow receiveShadow>
 		<T.BoxGeometry args={[player.size * 2, player.size * 2, player.size * 2]} />
 		<T.MeshStandardMaterial color={player.color} />
 		<Attractor range={40} gravityType="linear" {strength} />

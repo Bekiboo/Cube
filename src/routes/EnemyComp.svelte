@@ -19,7 +19,7 @@
 		/>
 		<T.Mesh castShadow receiveShadow>
 			<T.BoxGeometry args={[enemy.size[0] * 2, enemy.size[1] * 2, enemy.size[2] * 2]} />
-			<T.MeshStandardMaterial color={enemy.markedForDeletion ? 'gray' : 'red'} />
+			<T.MeshStandardMaterial color={enemy.markedForDeletion ? 'gray' : enemy.color} />
 		</T.Mesh>
 	</RigidBody>
 </T.Group>
