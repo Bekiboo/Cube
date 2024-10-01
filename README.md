@@ -1,6 +1,5 @@
 # Overview
 
-{Provide a description the game that you wrote. Describe how to play your game.}
 In Cube, you play a cube that has to avoid other cubes, and this on a cubic platform. The goal is to survive as long as possible. The game is over when the player's cube lose all its health points.
 Move around with WASD or the arrow keys.
 
